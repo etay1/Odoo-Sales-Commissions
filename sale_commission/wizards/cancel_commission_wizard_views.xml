@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+    <record id="cancel_commission_wizard_view_form" model="ir.ui.view">
+        <field name="name">cancel.commission.wizard.form</field>
+        <field name="model">cancel.commission.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Cancel Commission Wizard">
+                <group>
+                    <group />
+                    <field name="commission_ids" />
+                </group>
+                <footer>
+                    <button name="cancel_commission" type="object" string="Submit"
+                        class="btn-primary"
+                        confirm="Are you sure you want to cancel these settlements?" />
+                    <button type="object" string="Close" special="cancel" />
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_sale_commission_cancel_commission" model="ir.actions.server">
+        <field name="name">Cancel Settlements</field>
+        <field name="model_id" ref="model_sale_commission" />
+        <field name="binding_model_id" ref="model_sale_commission" />
+        <field name="binding_view_types">list,form</field>
+        <field name="groups_id" eval="[(6, 0, [ref('base.group_system')])]" />
+        <field name="state">code</field>
+        <field name="code">
+            action = {
+            'type': 'ir.actions.act_window',
+            'name': 'Cancel Settlements',
+            'res_model': 'cancel.commission.wizard',
+            'view_mode': 'form',
+            'target': 'new',
+            'context': {'default_commission_ids': records.filtered(lambda r: r.state !=
+            'cancel').ids},
+            }
+        </field>
+    </record>
+
+</odoo>
