@@ -23,4 +23,4 @@ class SaleCommissionType(models.Model):
             if record.rate < 0:
                 raise ValidationError('Rate cannot be negative.')
             if record.type == 'percentage' and record.rate > 1:
-                raise ValidationError('Rate must be between 0 and 1.')
+                raise ValidationError('Rate must be between 0% and 100%.')
